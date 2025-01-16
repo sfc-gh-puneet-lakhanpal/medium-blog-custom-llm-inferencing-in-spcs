@@ -1,5 +1,5 @@
 use role llm_role;
-USE DATABASE apptio_db;
+USE DATABASE llm_db;
 USE SCHEMA vllm_sch;
 USE WAREHOUSE XSMALL_WH;
 

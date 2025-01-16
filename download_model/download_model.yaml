@@ -1,7 +1,7 @@
 spec:
   containers:
     - name: downloadmodel
-      image: /apptio_db/vllm_sch/vllm_image_repo/downloadmodel
+      image: /llm_db/vllm_sch/vllm_image_repo/downloadmodel
       env:
         HF_TOKEN: X
       volumeMounts:

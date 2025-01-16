@@ -1,7 +1,7 @@
 spec:
   containers:
     - name: vllm
-      image: /apptio_db/vllm_sch/vllm_image_repo/rayvllm
+      image: /llm_db/vllm_sch/vllm_image_repo/rayvllm
       env:
         HF_MODEL: "/models/granite-3.1-8b-instruct/"
       resources:

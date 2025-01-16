@@ -1,5 +1,5 @@
 use role LLM_ROLE;
-USE DATABASE APPTIO_DB;
+USE DATABASE LLM_DB;
 USE SCHEMA VLLM_SCH;
 USE WAREHOUSE XSMALL_WH;
 alter compute pool if exists RAY_VLLM_CP stop all;

@@ -19,7 +19,7 @@ logout_docker:
 	docker logout ${IMAGE_REGISTRY}
 
 login_docker: ## Build the customized osrm backend container
-	snow spcs image-registry token --format=JSON --connection sfsenorthamericademo391 | docker login ${IMAGE_REGISTRY} -u 0sessiontoken --password-stdin
+	snow spcs image-registry token --format=JSON --connection llmuserconnection | docker login ${IMAGE_REGISTRY} -u 0sessiontoken --password-stdin
 
 build_docker: ## Build the customized osrm backend container
 	docker build --platform linux/amd64 -t $(SS_SERVICE_NAME) -f Dockerfile .
@@ -31,11 +31,11 @@ push_docker: ## tag and push the containers to the repo $(IMAGE_REGISTRY)
 	docker push $(IMAGE_REGISTRY)/$(SS_SERVICE_NAME)
 
 upload_yaml_snowcli: ## upload yaml to stage $(SS_STAGE)
-	snow stage copy --connection sfsenorthamericademo391 --overwrite --no-auto-compress ./ray_vllm.yaml @$(SS_DB).$(SS_SCHEMA).$(SS_STAGE)
-	snow stage list --connection sfsenorthamericademo391 --database $(SS_DB) --like "$(SS_STAGE)%"
+	snow stage copy --connection llmuserconnection --overwrite --no-auto-compress ./ray_vllm.yaml @$(SS_DB).$(SS_SCHEMA).$(SS_STAGE)
+	snow stage list --connection llmuserconnection --database $(SS_DB) --like "$(SS_STAGE)%"
 
 list_yaml:
-	snow stage list --connection sfsenorthamericademo391 --database $(SS_DB) --like "$(SS_STAGE)%"
+	snow stage list --connection llmuserconnection --database $(SS_DB) --like "$(SS_STAGE)%"
 
 
 ######################## COMPOSITE TARGETS ######################
