@@ -1,0 +1,14 @@
+spec:
+  containers:
+    - name: downloadmodel
+      image: /apptio_db/vllm_sch/vllm_image_repo/downloadmodel
+      env:
+        HF_TOKEN: X
+      volumeMounts:
+        - name: models
+          mountPath: /models
+  volumes:
+    - name: models
+      source: '@models'
+  networkPolicyConfig:
+    allowInternetEgress: true

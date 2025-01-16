@@ -1,0 +1,28 @@
+use role llm_role;
+USE DATABASE apptio_db;
+USE SCHEMA vllm_sch;
+USE WAREHOUSE XSMALL_WH;
+
+// download model compute pool
+CREATE COMPUTE POOL if not exists DOWNLOAD_MODEL_POOL
+  MIN_NODES = 1
+  MAX_NODES = 1
+  INSTANCE_FAMILY = CPU_X64_XS
+  AUTO_SUSPEND_SECS = 300;
+
+show compute pools like 'DOWNLOAD_MODEL_POOL';
+
+
+CREATE OR REPLACE STAGE models
+ DIRECTORY = (ENABLE = TRUE)
+ ENCRYPTION = (TYPE='SNOWFLAKE_SSE');
+
+drop service if exists DOWNLOAD_MODEL_SERVICE force;
+
+
+EXECUTE JOB SERVICE
+  IN COMPUTE POOL DOWNLOAD_MODEL_POOL
+  EXTERNAL_ACCESS_INTEGRATIONS = (allow_all_integration)
+  NAME=DOWNLOAD_MODEL_SERVICE  
+  FROM @YAMLSPECS
+  SPEC='download_model.yaml';

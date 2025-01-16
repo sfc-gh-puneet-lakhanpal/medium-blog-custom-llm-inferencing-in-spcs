@@ -1,0 +1,81 @@
+spec:
+  containers:
+    - name: vllm
+      image: /apptio_db/vllm_sch/vllm_image_repo/rayvllm
+      env:
+        HF_MODEL: "/models/granite-3.1-8b-instruct/"
+      resources:
+        requests:
+          nvidia.com/gpu: 4
+        limits:
+          nvidia.com/gpu: 4
+      volumeMounts:
+        - name: models
+          mountPath: /models
+        - name: dshm
+          mountPath: /dev/shm
+        - name: raylogs
+          mountPath: /raylogs
+  endpoints:
+    - name: api
+      port: 8000
+      public: true
+    - name: ray-gcs-server-port
+      port: 6379
+      protocol: TCP
+      public: false
+    - name: ray-client-server-port
+      port: 10001
+      public: false
+    - name: ray-dashboard
+      port: 8265
+      public: true
+    - name: object-manager-port
+      port: 8076
+      protocol: TCP
+      public: false
+    - name: node-manager-port
+      port: 8077
+      protocol: TCP
+      public: false
+    - name: dashboard-agent-grpc-port
+      port: 8079
+      protocol: TCP
+      public: false
+    - name: dashboard-grpc-port
+      port: 8080
+      protocol: TCP
+      public: false
+    - name: dashboard-agent-listen-port
+      port: 8081
+      protocol: TCP
+      public: false
+    - name: metrics-export-port
+      port: 8082
+      protocol: TCP
+      public: false
+    - name: autoscaler-metric-port
+      port: 8083
+      protocol: TCP
+      public: false
+    - name: dashboard-metric-port
+      port: 8084
+      protocol: TCP
+      public: false
+    - name: worker-ports
+      portRange: 10002-19999
+      protocol: TCP
+    - name: ephemeral-port-range
+      portRange: 32768-60999
+      protocol: TCP
+  volumes:
+    - name: models
+      source: '@models'
+    - name: dshm
+      source: memory
+      size: 10.16Gi
+    - name: raylogs
+      source: block
+      size: 100Gi
+  networkPolicyConfig:
+    allowInternetEgress: true
