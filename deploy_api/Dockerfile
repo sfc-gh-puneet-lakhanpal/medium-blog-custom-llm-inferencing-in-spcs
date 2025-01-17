@@ -19,7 +19,6 @@ RUN pip3 install -r requirements.txt
 RUN pip uninstall -y pynvml
 RUN pip install nvidia-ml-py
 COPY batch_api.py ./
-COPY streaming_batch_api.py ./
 COPY entrypoint.sh ./
 RUN chmod +x ./entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]
